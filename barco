@@ -1,0 +1,75 @@
+#include <iostream>
+#include <cstdlib>
+
+using namespace std;
+
+void aparecerBarco(string l[][6]) {
+	int min = 0;
+	int max = 35;
+	srand(time(0));
+	int numero = min + rand() % (max - min + 1);
+	int val = 0, fila = 0;
+	int pos = 0, pos1 = 0;
+	int columna = numero % 6;
+	//identificar de los dos que le acompa�an..
+	if (columna == 5) { pos = 4, pos1 = 3; }
+	else if (columna == 0) { pos = 1, pos1 = 2; }
+	else { pos = columna - 1, pos1 = columna + 1; }
+	fila = numero / 6;
+	for (int i = 0; i < 6; i++) {
+		for (int n = 0; n < 6; n++) {
+			//comprobacio e impresion de 'B' en fila n;
+			if (fila == i) {
+				if (n == pos || val == numero || n == pos1) { l[i][n] = "B"; }
+				else { l[i][n] = "~"; }
+			}
+			else {
+				l[i][n] = "~";
+			}
+			val++;
+		}
+	}
+}
+void imprimir(string v[][6]) {
+	
+	for (int i = 0; i < 6; i++) {
+		for (int n = 0; n < 6; n++) {
+			cout << v[i][n];
+		}
+		cout << endl;
+	}
+}
+void atacar(string m[][6]) {
+	int atacarf, atacarC;
+	cout << "Ingresar fila y columan para atacar: \n";
+	cout << "FILA: ";
+	cin >> atacarf;
+	atacarf -= 1;
+	cout << "COLUMNA: ";
+	cin >> atacarC;
+	atacarC -= 1;
+	string respaldo;
+	respaldo = m[atacarf][atacarC];
+	m[atacarf][atacarC] = "X";
+	imprimir(m);
+	cout << endl;
+	if (respaldo == "B") {
+		cout << "Felicidades.\nLe has dado al barco!!...\n";
+		m[atacarf][atacarC] = "X";
+	}
+	else {
+		cout << "le has dado al agua.. intenta de nuevo.\n\n";
+		m[atacarf][atacarC] = respaldo;
+	}
+}
+int main() {
+	string tablero[6][6];
+	aparecerBarco(tablero);
+	while (true){
+		cout << endl;
+		imprimir(tablero);
+		atacar(tablero);
+	}
+
+	return 0;
+}
