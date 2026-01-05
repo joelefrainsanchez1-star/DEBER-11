@@ -1,0 +1,58 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// impresion arreglos
+void imprimir(int tam, string usuario[], string mensaje[], string hora[]) {
+    for (int i = 0; i < tam; i++) {
+        cout << i + 1 << ".- "
+            << usuario[i] << " - "
+            << hora[i] << " - "
+            << mensaje[i] << endl;
+    }
+}
+
+// funcion extraer
+void extraer(string chat[], int tam) {
+    string hora[6];
+    string usuario[6];
+    string mensaje[6];
+    int posicion = 0, Nmensajes = 0;
+    size_t encontrar;
+
+    while (posicion < tam) {
+        string extraer = chat[posicion];
+
+        for (int i = 0; i < 3; i++) {
+            encontrar = extraer.find("//");
+
+            if (i == 0) {
+                hora[posicion] = extraer.substr(0, encontrar);
+            }else if (i == 1) {
+                usuario[posicion] = extraer.substr(0, encontrar);
+            }else {
+                mensaje[posicion] = extraer;
+                if (usuario[posicion] == "Roberto" || usuario[posicion] == "Belen")
+                    Nmensajes++;}
+            if (encontrar != string :: npos){
+                extraer = extraer.substr(encontrar + 2);}
+        }
+        posicion++;
+    }
+    cout << "los mensajes entre Roberto y Belen fueron: " << Nmensajes << endl;
+    imprimir(tam, usuario, mensaje, hora);
+}
+
+int main() {
+    string chat[] = {
+        "08:15//Roberto//Hola perdida, ¿como estas?",
+        "08:17//Belen//Bien, gracias. ¿Y tu?",
+        "08:20//Roberto//Aqui pensandote. ¿Quieres salir al cine hoy?",
+        "08:21//Belen//Tu novia, ¿si te da permiso?",
+        "08:22//Roberto//Cual novia?. Es una amiga nomas",
+        "08:23//Roberto//mejor tu pide permiso a tu novio?"
+    };
+
+    extraer(chat, 6);
+    return 0;
+}
