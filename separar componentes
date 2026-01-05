@@ -1,0 +1,48 @@
+#include <iostream>
+#include <string>
+using namespace std;
+//funcion que hace el proceso for....
+void procesoFor(string lista[], string operacion, string& resultados, int tam) {
+	for (int i = 0; i < operacion.length(); i++) {
+		string comparar(1, operacion[i]);
+		if (comparar == "=") { break; }
+		for (int n = 0; n < tam; n++) {
+			if (comparar == lista[n]) {
+				if (resultados.length() == 0) { resultados.append(comparar); }
+				else { resultados.append(","), resultados.append(comparar); }
+				break;
+			}
+		}
+	}
+}
+//impresion listas resultados
+void impresion(string& lista, string nombreLista) {
+	cout << endl << nombreLista << " en la operacion son: ";
+	for (int i = 0; i < lista.length(); i++) {
+		cout << lista[i];
+	}
+	cout << endl;
+}
+// separar componentes
+void separar(string operacion) {
+	string numeros[] = {"1","2","3","4","5","6","7","8","9","0"};
+	string operadores[] = { "+","-","/","*", "%", "^" };
+	string otros[] = {"(",")","[","]","{" ,"}"};
+	string resultadosNumeros, ResultadosOperador, ResultadosOtros;
+	//separar componentes
+	//recorrer la lista y comparar, numeros
+	procesoFor(numeros, operacion, resultadosNumeros, 10);
+	procesoFor(operadores, operacion, ResultadosOperador, 6);
+	procesoFor(otros, operacion, ResultadosOtros, 7);
+	
+	impresion(resultadosNumeros, "numeros");
+	impresion(ResultadosOperador, "operadores");
+	impresion(ResultadosOtros, "otros");
+
+}
+
+int main() {
+	string operacion = "(2 * 3) - 5 = 1";
+	separar(operacion);
+	return 0;
+}
