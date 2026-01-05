@@ -1,0 +1,36 @@
+//Crea una estructura llamada Vehiculo que contenga los siguientes campos: marca (string), modelo (string), anio (int). 
+// Luego, declara un arreglo de 5 vehículos. 
+// Escribe un programa que permita al usuario ingresar los datos de cada vehículo y luego muestre la información del vehículo más reciente
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct vehiculo {
+	string marca;
+	string modelo;
+	int anio;
+};
+void ingresarVehiculos(vehiculo v[5]) {
+	for (int i = 0; i < 5; i++) {
+		if (v[i].marca == "") {
+			cout << "Ingresar los siguientes datos del vehiculo....\n";
+			cout << "MARCA: ";
+			getline(cin, v[i].marca);
+			cout << "MODELO: ";
+			getline(cin, v[i].modelo);
+			cout << "ANIO: ";
+			cin >> v[i].anio;
+			cin.ignore();
+			cout << "vehiculo registrado exitosamente....\n";
+			cout << "MARCA: " << v[i].marca << endl
+				<< "MODELO: " << v[i].modelo << endl
+				<< "ANIO: " << v[i].anio << endl << endl;
+
+		}
+	}
+}
+int main() {
+	vehiculo v[5];
+	ingresarVehiculos(v);
+	return 0;
+}
