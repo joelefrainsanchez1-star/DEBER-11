@@ -1,0 +1,223 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+struct Jugador {
+    int id;
+    string nombre;
+    string posicion; // Ej: "Portero", "Defensa", etc.
+    int edad;
+};
+
+struct Equipo {
+    int id;
+    string nombre;
+    string entrenador;
+    vector<Jugador> jugadores; // anidado
+};
+
+int menu() {
+    cout << "=========== MENU ===============\n" <<
+        "1.	Registrar equipo\n" <<
+        "2.	Agregar jugador a un equipo\n" <<
+        "3.	Listar equipos con sus jugadores\n" <<
+        "4.	Buscar equipo por ID\n" <<
+        "5.	Eliminar jugador de un equipo\n" <<
+        "6.	Filtrar equipos por entrenador\n" <<
+        "7.	Eliminar equipo completo\n" <<
+        "8.- Salir\n" <<
+        "Ingresar una opcion: ";
+    int opcion;
+    cin >> opcion;
+    return opcion;
+}
+//registrar jugadores----------------------------------------------------
+void registrarJugadores(vector <Jugador>& j, int Njugadores) {
+    Jugador nuevoJugador;
+    size_t numeroJugadores;
+    if (!(j.empty())) {
+        numeroJugadores = j.size();
+        numeroJugadores += 1;
+    }
+    else { numeroJugadores = 1; }
+    cin.ignore();
+    for (int i = 0; i < Njugadores; i++) {
+        cout << "Ingresar datos Jugadores: \n" <<
+            "Jugador " << i + numeroJugadores << endl <<
+            "Nombre: ";
+        getline(cin, nuevoJugador.nombre);
+        cout << "Edad: ";
+        cin >> nuevoJugador.edad;
+        cout << "ID: ";
+        cin >> nuevoJugador.id;
+        cin.ignore();
+        cout << "Posicion en la cancha: ";
+        getline(cin, nuevoJugador.posicion);
+        j.push_back(nuevoJugador);
+        }
+    }
+
+//registrar
+void registrarEquipo(vector <Equipo> &e) {
+    Equipo nuevoEquipo;
+    int Njugadores;
+    cin.ignore();
+    cout << "Ingresar los datos del equipo..\n" <<
+        "Nombre: ";
+    getline(cin, nuevoEquipo.nombre);
+    cout << "ID: ";
+    cin >> nuevoEquipo.id;
+    cin.ignore();
+    cout << "Entrenador: ";
+    getline(cin, nuevoEquipo.entrenador);
+    cout << "Ingrese cuantos jugadores tiene su plantilla: ";
+    cin >> Njugadores;
+    registrarJugadores(nuevoEquipo.jugadores, Njugadores);
+    e.push_back(nuevoEquipo);
+    }
+//agg jugador a un equipo-----------------------------------------
+void agregarJugador(vector <Equipo>& e) {
+    int id;
+    cout << "Ingrese el id del equipo al que agregara jugadores...\n";
+    cout << "ID: ";
+    cin >> id;
+    int Njugadores;
+    cout << "Ingrese cuantos jugadores va a agregar: ";
+    cin >> Njugadores;
+    for (int i = 0; i < e.size(); i++){
+        if (id == e[i].id) {
+            registrarJugadores(e[i].jugadores, Njugadores);
+        }
+    }
+}
+//listar-------------------------------------------------
+//listar jugadores
+void imprimirJuegadores(vector <Jugador>& j, string mensajeParaMostrarAntesImpresion) {
+    cout << mensajeParaMostrarAntesImpresion << endl;
+    for (int i = 0; i < j.size(); i++) {
+        cout << "Jugador " << i + 1 << endl <<
+            "Nombre: " << j[i].nombre << endl <<
+            "Edad: " << j[i].edad << endl <<
+            "ID: " << j[i].id << endl <<
+            "Posicion: " << j[i].posicion << endl;
+    }
+    cout << endl;
+}
+//listar 
+
+void imprimir(vector <Equipo>& e) {
+    for (int i = 0; i < e.size(); i++) {
+        cout << "\n============== EQUIPO ==========\n";
+        cout << e[i].nombre << endl <<
+            "ID: " << e[i].id << endl <<
+            "Entrenador: " << e[i].entrenador << endl;
+        imprimirJuegadores(e[i].jugadores, "======= PLANTILLA ======\n");
+            
+    }
+}
+//buscar equipo ----------------------------------------------------------
+void buscarEquipo(vector <Equipo>& e) {
+    int id;
+    cout << "Ingrese el id del equipo a buscar...\n";
+    cout << "ID: ";
+    cin >> id;
+    cout << endl;
+    for (int i = 0; i < e.size(); i++) {
+        if (id == e[i].id) {
+            cout << "\n======= EQUIPO ================\n";
+            cout << e[i].nombre << endl <<
+                "ID: " << e[i].id << endl <<
+                "Entrenador: " << e[i].entrenador << endl;
+            imprimirJuegadores(e[i].jugadores, "======= PLANTILLA ======\n");
+        }
+    }
+}
+//Eliminar jugador de un equipo
+void eliminarJugador(vector <Equipo>& e) {
+    int idJugador, idEquipo;
+    cout << "Ingresar primero ID JUGADOR, luego ID EQUIPO....\n";
+    cout << "ID JUGADOR: ";
+    cin >> idJugador;
+    cout << "ID EQUIPO: ";
+    cin >> idEquipo;
+    for (int i = 0; i < e.size(); i++) {
+        if (e[i].id == idEquipo) {
+            for (int n = 0; n < (e[i].jugadores).size(); n++) {
+                if ((e[i].jugadores)[n].id == idJugador) {
+                    cout << "Jugador " << (e[i].jugadores)[n].nombre << " eliminando!\n";
+                    (e[i].jugadores).erase((e[i].jugadores).begin() + n);
+                    cout << "Jugador eliminado!\n";
+                }
+            }
+        }
+    }
+}
+//filtrar
+void FiltrarEntrenador(vector <Equipo>& e) {
+    string entrenador;
+    cin.ignore();
+    cout << "Ingrese el DT (entrenador) del equipo a buscar...\n";
+    cout << "Nombre DT: ";
+    getline(cin, entrenador);
+    cout << "Equipos con el entrenador " << entrenador << " en comun..\n\n";
+    for (int i = 0; i < e.size(); i++) {
+        if (entrenador == e[i].entrenador) {
+            cout << "\n========== EQUIPO ==============\n";
+            cout << e[i].nombre << endl <<
+                "ID: " << e[i].id << endl << endl;
+        imprimirJuegadores(e[i].jugadores, "\n======= PLANTILLA ======\n");
+        }
+    }
+}
+//eliminar equipo
+void eliminarEquipo(vector <Equipo>& e) {
+    int  idEquipo;
+    cout << "Ingresar primero ID EQUIPO a eliminar....\n";
+    cout << "ID EQUIPO: ";
+    cin >> idEquipo;
+    for (int i = 0; i < e.size(); i++) {
+        if (e[i].id == idEquipo) {
+            cout << "Eliminando equipo: " << e[i].nombre << endl;
+            e.erase(e.begin() + i);
+            cout << "Equipo eliminado!!\n";
+        }
+    }
+}
+
+int main() {
+    vector <Equipo> equipos;
+    int opcion;
+    do {
+        opcion = menu();
+        switch (opcion){
+        case 1:
+            registrarEquipo(equipos);
+            break;
+        case 2:
+            agregarJugador(equipos);
+            break;
+        case 3:
+            imprimir(equipos);
+            break;
+        case 4:
+            buscarEquipo(equipos);
+            break;
+        case 5:
+            eliminarJugador(equipos);
+            break;
+        case 6:
+            FiltrarEntrenador(equipos);
+            break;
+        case 7:
+            eliminarEquipo(equipos);
+            break;
+        case 8:
+            cout << "Saliendo del sistema...\n";
+            break;
+        default:
+            cout << "opcion Invalida...Intente de nuevo\n";
+            break;
+        }
+    } while (opcion != 8);
+	return 0;
+}
