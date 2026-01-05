@@ -1,0 +1,152 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+struct Pelicula {
+	int id;
+	string titulo;
+	string director;
+	bool enCartelera;
+};
+
+int menu() {
+	cout << "======== MENU ==========\n" <<
+		"1.- Registrar Pelicula\n" <<
+		"2.- Listar Pelicula\n" <<
+		"3.- Buscar Pelicula\n" <<
+		"4.- Cambiar Estado\n" <<
+		"5.- Eliminar Pelicula\n" <<
+		"6.- Filtrar Estado\n" <<
+		"7.- Salir\n" << 
+		"Ingresar Opcion: ";
+	int opcion;
+	cin >> opcion;
+	return opcion;
+}
+void registrarPelicula(vector <Pelicula>& c) {
+	Pelicula nuevaPelicula;
+	int opcionEstado;
+	cin.ignore();
+	cout << "Ingresar los siguientes datos de la pelicula....\n";
+	cout << "Titulo: ";
+	getline(cin, nuevaPelicula.titulo);
+	cout << "ID: ";
+	cin >> nuevaPelicula.id;
+	cin.ignore();
+	cout << "Director: ";
+	getline(cin, nuevaPelicula.director);
+	cout << "Cartelera " <<
+		"\n1.- En cartelera\n" <<
+		"2.- Fuera de cartelera\n" <<
+		"Escribir opcion: ";
+	cin >> opcionEstado;
+	if (opcionEstado == 1) { nuevaPelicula.enCartelera = true; }
+	else if (opcionEstado == 2) { nuevaPelicula.enCartelera = false; }
+	c.push_back(nuevaPelicula);
+}
+void listarPelicula(vector <Pelicula>& c) {
+	for (Pelicula p : c) {
+		cout << "=== TODAS LAS PELICULAS =====\n" <<
+			p.titulo << "( " << p.director << " )" << endl <<
+			p.id << endl << (p.enCartelera? "En cartelera" : "Fuera de cartelera") << endl;
+	}
+}
+void buscarPelicula(vector <Pelicula>& c) {
+	int id;
+	cout << "Ingrese el id de la pelicula a buscar...\n" << 
+		"ID: ";
+	cin >> id;
+	for (Pelicula p : c) {
+		if (id == p.id) {
+			cout << "Pelicula encontrada!.....\n" <<
+				p.titulo << "( " << p.director << " )" << endl <<
+				p.id << endl << (p.enCartelera? "En cartelera" : "Fuera de cartelera") << endl;
+			break;
+		}
+	}
+}
+void cambiarEstado(vector <Pelicula> &c) {
+	int id, opcionEstado;
+	string nuevoEstado;
+	cout << "Ingrese el id de la pelicula a buscar...\n" <<
+		"ID: ";
+	cin >> id;
+	for (Pelicula &p : c) {
+		if (id == p.id) {
+			cout << "Escriba el nuevo estado de la pelicula\n" <<
+				"1.- En cartelera\n" <<
+				"2.- Fuera de cartelera\n" <<
+				"Escribir opcion: ";
+			cin >> opcionEstado;
+			if (opcionEstado == 1) { p.enCartelera = true; }
+			else if (opcionEstado == 2) { p.enCartelera = false; }
+			cout << "Actualizacion exitosa!.....\n" << 
+				"La pelicula se encuentra: " <<
+				(p.enCartelera ? "En cartelera" : "Fuera de cartelera");
+			break;
+		}
+	}
+}
+void eliminarPelicula(vector <Pelicula>& c) {
+	int id, posicion = 0;
+	cout << "Ingrese el id de la pelicula a buscar...\n" <<
+		"ID: ";
+	cin >> id;
+	for (Pelicula p : c) {
+		if (id == p.id) {
+			c.erase(c.begin() + posicion);
+			cout << "Pelicula eliminada!.....\n";
+			break;
+		}
+		posicion++;
+	}
+}
+void filtrarEstado(vector <Pelicula>& c) {
+	cout << "EN CARTELERA...\n";
+	for (Pelicula p : c) {
+		if (p.enCartelera) {
+			cout << "- " << p.titulo << " (" << p.director << " ) \n";
+		}
+	}
+	cout << "FUERA DE CARTELERA...\n";
+	for (Pelicula p : c) {
+		if (!(p.enCartelera)) {
+			cout << "- " << p.titulo << " (" << p.director << " ) \n";
+		}
+	}
+}
+int main() {
+	vector <Pelicula> cartelera;
+	int opcion;
+	do {
+		opcion = menu();
+		switch (opcion)
+		{
+		case 1:
+			registrarPelicula(cartelera);
+			break;
+		case 2:	
+			listarPelicula(cartelera);
+			break;
+		case 3:
+			buscarPelicula(cartelera);
+			break;
+		case 4:
+			cambiarEstado(cartelera);
+			break;
+		case 5:
+			eliminarPelicula(cartelera);
+			break;
+		case 6:
+			filtrarEstado(cartelera);
+			break;
+		case 7:
+			cout << "Saliendo del sistema...\n";
+			break;
+		default:
+			cout << "Opcion Invalida... Intente de nuevo\n";
+			break;
+		}
+	} while (opcion != 7);
+	return 0;
+}
