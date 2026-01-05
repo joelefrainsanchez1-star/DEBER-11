@@ -1,0 +1,57 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+struct pocionMagica {
+	string nombre;
+	vector <string> ingredientes;
+	int tiempoPreparacion;
+	string efecto;
+};
+//______________________________________________________________________________________________
+// declarar nuevas pociones...
+pocionMagica p1{
+	"veneno",
+	{ "cabello de gato", "veneno de rata", "comida podrida", "cloro"},
+	30,
+	"mareo",
+};
+pocionMagica p2{
+	"crecer",
+	{ "harina", "levadura", "cabello jirafa", "sabia de arbol", "cloro"},
+	60,
+	"quedas dormido tiempo indefinido",
+};
+pocionMagica p3{
+	"Fuerza",
+	{ "baba de gorila", "raspado de hierro", "huevos podridos", "Mrs. musculo", "cloro"},
+	10,
+	"estres y desborde de energia",
+};
+
+void buscarReferencias(vector <pocionMagica> m) {
+	string ingrediente;
+	vector <string> referencias;
+	cout << "Escriba un ingrediente: ";
+	cin >> ingrediente;
+	for (pocionMagica k : m) {
+		for (string h : k.ingredientes) {
+			if (h == ingrediente) {
+				referencias.push_back(k.nombre);
+			}
+		}
+	}
+	cout << "Las pociones que usan el ingrediente " << ingrediente << " son: " << endl;
+	for (string g : referencias) {
+		cout << "- " << g << endl;
+	}
+	cout << endl;
+}
+int main() {
+	vector <pocionMagica> m;
+	m.push_back(p1);
+	m.push_back(p2);
+	m.push_back(p3);
+	buscarReferencias(m);
+
+	return 0;
+}
