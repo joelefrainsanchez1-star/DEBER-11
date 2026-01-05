@@ -1,0 +1,156 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+struct Estudiante {
+	int id;
+	string nombre;
+	string carrera;
+	float promedio;
+};
+
+int menu() {
+	cout << "=========== MENU =============\n" <<
+		"1.-Registrar Estudiante\n" <<
+		"2.- Listar Estudiante\n" <<
+		"3.- Buscar Estudiante\n" <<
+		"4.- Actualizar Estudiante\n" <<
+		"5.- Eliminar Estudiante\n" <<
+		"6.- Estudiantes aprobados\n" <<
+		"7.- Salir\n" << 
+		"Ingresar una opcion: ";
+	int opcion;
+	cin >> opcion;
+	return opcion;
+}
+//registro
+void registrarEstudiante(vector <Estudiante>& e) {
+	Estudiante estudianteNuevo;
+	cin.ignore();
+	cout << "LLenar los datos solicitados....\n";
+	cout << "Nombre: ";
+	getline(cin, estudianteNuevo.nombre);
+	cout << "Carrera: ";
+	getline(cin, estudianteNuevo.carrera);
+	cout << "Promedio: ";
+	cin >> estudianteNuevo.promedio;
+	cout << "Id: ";
+	cin >> estudianteNuevo.id;
+	e.push_back(estudianteNuevo);
+} 
+//listar
+void ListarEstudiante(vector <Estudiante>& e) {
+	for (int i = 0; i < e.size(); i++) {
+		cout << "\nEstudiante: " << e[i].nombre <<
+			" de " << e[i].carrera << " " << e[i].id <<
+			" con promedio de " << e[i].promedio << endl;
+	}
+}
+//buscar
+void buscarEstudiante(vector <Estudiante> &e) {
+	cout << "\nIngresar el ID del estudiante que desea buscar...\n";
+	cout << "ID: ";
+	int idBuscar;
+	cin >> idBuscar;
+	for (int i = 0; i < e.size(); i++) {
+		if (idBuscar == e[i].id) {
+			cout << "Estudiante encontrado!!....\n";
+			cout << "Estudiante: " << e[i].nombre <<
+				" de " << e[i].carrera << " " << e[i].id <<
+				" con promedio de " << e[i].promedio << endl;
+		}
+	}
+}
+//ActualizarEstudiante
+void ActualizarEstudiante(vector <Estudiante> &e) {
+	cout << "\nIngresar el ID del estudiante que desea actualizar...\n";
+	cout << "ID: ";
+	int idBuscar;
+	cin >> idBuscar;
+	for (int i = 0; i < e.size(); i++) {
+		if (idBuscar == e[i].id) {
+			cout << "Que desea actualizar....\n" <<
+				"1- Carrera\n" <<
+				"2.- Promedio\n" << 
+				"Ingresar opcion: ";
+			int opcionActualizar;
+			cin >> opcionActualizar;
+			if (opcionActualizar == 1) {
+				string nuevaCarrera;
+				cout << "Ingresar nueva Carrera..\n";
+				cin >> nuevaCarrera;
+				e[i].carrera = nuevaCarrera;
+				cout << "Carrera acutalizada!.. : " << e[i].carrera << endl;
+			}
+			else if (opcionActualizar == 2) {
+				float nuevoPromedio;
+				cout << "Ingresar nuevo Promedio: ";
+				cin >> nuevoPromedio;
+				e[i].promedio = nuevoPromedio;
+				cout << "Promedio Actualizado!.... : " << e[i].promedio << endl;
+			}
+		}
+	}
+}
+//Eliminar estudiante
+void EliminarEstudiante(vector <Estudiante>& e) {
+	cout << "\nIngresar el ID del estudiante que desea eliminar...\n";
+	cout << "ID: ";
+	int idBuscar;
+	cin >> idBuscar;
+	for (int i = 0; i < e.size(); i++) {
+		if (idBuscar == e[i].id) {
+			e.erase(e.begin() + i);
+			cout << "Estudiante eliminado!!....\n";
+		}
+	}
+}
+vector <Estudiante> EstudiantesAprobados(vector <Estudiante> &e) {
+	vector <Estudiante> aprobados;
+	for (int i = 0; i < e.size(); i++) {
+		if (e[i].promedio >= 14) {
+			aprobados.push_back(e[i]);
+		}
+	}
+	return aprobados;
+}
+int main() {
+	vector <Estudiante> estudiantes;
+	vector <Estudiante> aprobados;
+	int opcion = 0;
+	while (opcion != 7) {
+		opcion = menu();
+		switch (opcion)	{
+		case 1:
+			registrarEstudiante(estudiantes);
+			break;
+		case 2:
+			ListarEstudiante(estudiantes);
+			break;
+		case 3:
+			buscarEstudiante(estudiantes);
+			break;
+		case 4:
+			ActualizarEstudiante(estudiantes);
+			break;
+		case 5:
+			EliminarEstudiante(estudiantes);
+			break;
+		case 6:
+			aprobados = EstudiantesAprobados(estudiantes);
+			cout << "Todos los estudiantes aprobados....\n";
+			for (int i = 0; i < aprobados.size(); i++) {
+				cout << aprobados[i].nombre << " de " << aprobados[i].carrera << 
+					" con un promedio de " << aprobados[i].promedio << endl;
+			}
+			break;
+		case 7:
+			cout << "saliendo del sistema...\n";
+			break;
+		default:
+			cout << "Opcion invalida.. Intente de nuevo..\n";
+			break;
+		}
+	}
+	return 0;
+}
