@@ -1,0 +1,25 @@
+#include <iostream>
+#include <string>
+using namespace std;
+void contarPalabras(string oracion) {
+	int palabras = 0;
+	while (true){
+		size_t espacio = oracion.find(" ");
+		if(espacio != string::npos) {
+			palabras++;
+			oracion = oracion.substr(espacio + 1);
+		}
+		else {
+			palabras++;
+			break;
+		}
+	}
+	cout << "la oracion contiene : " << palabras << " Palabras.\n";
+}
+int main() {
+	string oracion;
+	cout << "Ingresar una oracion : ";
+	getline(cin, oracion);
+	contarPalabras(oracion);
+	return 0;
+}
