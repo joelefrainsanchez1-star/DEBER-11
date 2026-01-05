@@ -1,0 +1,46 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+void reset(int matriz[][6]) {
+	for (int i = 0; i < 4; i++) {
+		for (int n = 0; n < 6; n++) {
+			matriz[i][n] = 0;
+		}
+	}
+}
+void ingresarDulzura(int matriz[][6]) {
+	int pedazosN = 1;
+	cout << "los pedazos son enumerados del 1 al 24...\n";
+	cout << "Se enumeran de izquierda a derecha,\nSi el numero es multiplo de 6 entonces es el ultimo de su fila...\n";
+	cout << "\nIngresar nivel de dulzura de cada pedazo (1 al 9)\n";
+	for (int i = 0; i < 4; i++) {
+		for (int n = 0; n < 6; n++) {
+			cout << "Pedazo " << pedazosN << ": ";
+			cin >> matriz[i][n];
+			pedazosN++;
+		}
+	}
+}
+void calcDulzuraProm(int matriz[][6]) {
+	float prom = 0;
+	for (int i = 0; i < 4; i++) {
+		for (int n = 0; n < 6; n++) {
+			prom +=matriz[i][n];
+		}
+	}
+	prom /= 24;
+	cout << "Promedio de dulzura es " << fixed << setprecision(2) << prom << endl;
+}
+int main() {
+	int chocolate[4][6];
+	reset(chocolate);
+	int nChocolate = 1;
+	cout << "\n========= FABRICA WILLY WONKA ===========\n";
+	cout << "Ingresar los niveles de dulzura de cada pedazo del chocolate...\n";	
+	cout << "Chocolate " << nChocolate << endl;
+	ingresarDulzura(chocolate);
+	calcDulzuraProm(chocolate);
+	reset(chocolate);
+	return 0;
+}
